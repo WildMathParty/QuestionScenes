@@ -9,8 +9,9 @@ local scene = composer.newScene()
 
 local clueNum
 local clueTable = {
-    {"clueString", "What is the first letter?", "a"},
-    {"clueString", "What is the second letter?", "b"}
+    {"cluePicker", "What are the first four numbers?", "1234", {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}},
+    {"clueString", "What is the second letter?", "b"},
+    {"cluePicker", "What are the last five numbers?", "67890", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}}
 }
 
 

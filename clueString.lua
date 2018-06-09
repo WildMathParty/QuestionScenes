@@ -18,7 +18,7 @@ local function handleButtonEvent(event)
         if(inputBox.text:lower() == clueAnswer) then
             composer.gotoScene("controller")
         else
-            print(inputBox.text:lower(), " and ", clueAnswer)
+            print(inputBox.text:lower() .. " and " .. clueAnswer)
         end
     end
 end
