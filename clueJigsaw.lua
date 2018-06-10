@@ -126,8 +126,13 @@ function scene:show( event )
         jigsawImage = event.params[2]
         xPieces = event.params[3]
         yPieces = event.params[4]
-        picX = event.params[5]/(event.params[5]/display.actualContentWidth)
-        picY = event.params[6]/(event.params[5]/display.actualContentWidth)
+        if(event.params[5]>event.params[6]) then
+            picX = event.params[5]/(event.params[5]/display.actualContentWidth)
+            picY = event.params[6]/(event.params[5]/display.actualContentWidth)
+        else
+            picX = event.params[5]/(event.params[6]/(display.actualContentHeight/1.8))
+            picY = event.params[6]/(event.params[6]/(display.actualContentHeight/1.8))
+        end
 
         --event.params[5] / display.actualContentWidth
 

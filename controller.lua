@@ -9,10 +9,12 @@ local scene = composer.newScene()
 
 local clueNum
 local clueTable = {
-    {"clueJigsaw", "Images/colourCat.jpg", 4, 3, 960, 682},
-    {"clueJigsaw", "Images/colourDog.jpg", 2, 6, 798, 634},
-    {"cluePicker", "What are the first four numbers?", "1234", {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}},
-    {"clueString", "What is the second letter?", "b"}
+    --{"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
+    --{"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
+    {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},
+    {"clueString", "What song did Hatsune Miku perform on the pizza box?", "luv4night"},
+    {"cluePicker", "From the menu to the order, it looks very ...", "cute", {"s", "c", "q", "i", "n"}, {"f", "a", "l", "m", "u"}, {"p", "r", "z", "t", "y"}, {"e", "o", "b", "d", "x"}},
+    {"clueJigsaw", "Images/miku.jpg", 4, 3, 907, 720},
 }
 
 
