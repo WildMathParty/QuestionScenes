@@ -19,7 +19,7 @@ local picY
 local firstPress
 
 local enterButton
-local function handleButtonEvent(event)
+local function enterButtonEvent(event)
     if(event.phase == "ended") then
         local check = true
         for i = 1, xPieces do
@@ -33,6 +33,13 @@ local function handleButtonEvent(event)
         if(check == true) then
             composer.gotoScene("controller")
         end
+    end
+end
+
+local howToPlayButton
+local function howToPlayButtonEvent(event)
+    if(event.phase == "ended") then
+        --Overlay composer scene
     end
 end
 
@@ -93,9 +100,25 @@ function scene:create( event )
 
     mask = graphics.newMask("Images/maskHundred.png")
 
+    howToPlayButton = widget.newButton({        
+        label = "?",
+        onEvent = howToPlayButtonEvent,
+        emboss = false,
+        -- Properties for a circle button
+        shape = "circle",
+        left = 20,
+        top = -20,
+        radius = 12,
+        cornerRadius = 2,
+        fillColor = { default={0.5,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 2
+    })
+    sceneGroup:insert(howToPlayButton)
+
     enterButton = widget.newButton({        
         label = "SUBMIT",
-        onEvent = handleButtonEvent,
+        onEvent = enterButtonEvent,
         emboss = false,
         -- Properties for a rounded rectangle button
         shape = "roundedRect",

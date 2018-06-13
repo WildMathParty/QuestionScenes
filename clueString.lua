@@ -16,6 +16,7 @@ local clueAnswer
 local function handleButtonEvent(event)
     if(event.phase == "ended") then
         if(inputBox.text:lower() == clueAnswer) then
+            native.setKeyboardFocus(nil)
             composer.gotoScene("controller")
         else
             print(inputBox.text:lower() .. " and " .. clueAnswer)
@@ -51,7 +52,7 @@ function scene:create( event )
         -- Properties for a rounded rectangle button
         shape = "roundedRect",
         x = display.contentCenterX,
-        y = display.contentCenterY + 80,
+        y = display.contentCenterY + 20,
         width = 200,
         height = 40,
         cornerRadius = 2,
@@ -75,7 +76,7 @@ function scene:show( event )
         clueText.text = event.params[2]
         clueAnswer = event.params[3]
 
-        inputBox = native.newTextField(display.contentCenterX, display.contentCenterY + 200, 256, 64)
+        inputBox = native.newTextField(display.contentCenterX, display.contentCenterY - 100, 256, 64)
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -92,7 +93,6 @@ function scene:hide( event )
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
         if(inputBox) then
-            print("test")
             inputBox:removeSelf()
             inputBox = nil
         end

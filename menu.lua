@@ -8,9 +8,11 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
+-- Variables declared for scope
 local menuText
 local startButton
 
+-- When start button pressed, goes to controller scene
 local function handleButtonEvent(event)
     if (event.phase == "ended") then
         composer.gotoScene("controller")
@@ -28,6 +30,7 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
+    -- Creates text at top of screen
     menuText = display.newText({
         text = "Press below to start the hunt",
         x = display.contentCenterX,
@@ -39,6 +42,7 @@ function scene:create( event )
     })
     sceneGroup:insert(menuText)
 
+    -- Creates button to start hunt
     startButton = widget.newButton({        
         label = "START",
         onEvent = handleButtonEvent,

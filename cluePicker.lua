@@ -60,7 +60,7 @@ function scene:create( event )
         -- Properties for a rounded rectangle button
         shape = "roundedRect",
         x = display.contentCenterX,
-        y = display.contentCenterY + 80,
+        y = display.contentCenterY + 20,
         width = 200,
         height = 40,
         cornerRadius = 2,
@@ -128,7 +128,7 @@ function scene:show( event )
 
         pickerWheel = widget.newPickerWheel({
             x = display.contentCenterX, 
-            y = display.contentCenterY + 200,
+            y = display.contentCenterY - 100,
             style = "resizable",
             width = 240,
             rowHeight = 24,

@@ -7,13 +7,24 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
+-- clueNum is the current clue number the player is on. Used to get next clue on iteration and to finish hunt when above number of clues
 local clueNum
+
+-- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
     {"clueJigsaw", "Images/colourCat.jpg", 4, 3, 960, 682},
-    {"clueJigsaw", "Images/colourDog.jpg", 2, 6, 798, 634},
-    {"cluePicker", "What are the first four numbers?", "1234", {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}},
-    {"clueString", "What is the second letter?", "b"}
+    --{"clueJigsaw", "Images/colourDog.jpg", 2, 6, 798, 634},
+    --{"cluePicker", "What are the first four numbers?", "1234", {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}},
+    --{"clueString", "What is the second letter?", "b"}
 }
+--[[        CLUE FORMAT
+simple string question, string answer
+{"clueString", "The question asked", "the answer in lowercase"}
+
+string question, combination lock-like answer. Can be numbers for code or letters to spell word, but both must be strings
+{"cluePicker", "The question asked", "the answer", {"1.1", "1.2", "1.3", "1.4", "1.5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}}
+
+]]
 
 
 -- -----------------------------------------------------------------------------------
