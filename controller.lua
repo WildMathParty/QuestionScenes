@@ -22,8 +22,10 @@ simple string question, string answer
 {"clueString", "The question asked", "the answer in lowercase"}
 
 string question, combination lock-like answer. Can be numbers for code or letters to spell word, but both must be strings
-{"cluePicker", "The question asked", "the answer", {"1.1", "1.2", "1.3", "1.4", "1.5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}}
+{"cluePicker", "The question asked", "the answer", {"option 1.1", "1.2", "1.3", "1.4", "1.5"}, {"2.1" ..} ..}
 
+jigsaw question, takes picture and cuts it into specified x and y pieces, then scrambles them. User switches pieces to get full image and submits
+{"clueJigsaw", "Image file location", x pieces, y pieces, x pixels, y pixels}
 ]]
 
 
@@ -37,6 +39,7 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
+    -- Sets the current clue number to 0
     clueNum = 0
  
 end
@@ -51,15 +54,18 @@ function scene:show( event )
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 
+        -- Iterates clue number by 1 every time scene is shown, which is when hunt starts and every time a clue is solved
         clueNum = clueNum + 1
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         
+        -- If clue number is larger than number of clues, resets clue number to 0 and returns to menu
         if(clueNum > #clueTable) then
             clueNum = 0
             composer.gotoScene("menu")
         else
+            -- Else goes to the next clue type scene using the clue table and current clue, passing parameters of rest of that clue table field
             composer.gotoScene(clueTable[clueNum][1], {params = clueTable[clueNum]})
         end
  

@@ -8,17 +8,22 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
+-- Defines variables for scope
 local clueText
 local inputBox
 local enterButton
 local clueAnswer
 
+-- When submit button pressed 
 local function handleButtonEvent(event)
     if(event.phase == "ended") then
+        -- Checks if user's entered guess is same as clue answer
         if(inputBox.text:lower() == clueAnswer) then
+            -- If so, removes keyboard and returns to controller scene to iterate to next clue
             native.setKeyboardFocus(nil)
             composer.gotoScene("controller")
         else
+            -- Else prints to console both user's guess and correct answer for bugtesting
             print(inputBox.text:lower() .. " and " .. clueAnswer)
         end
     end
@@ -34,8 +39,9 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
+    -- Creates text at top of screen which displays the question
     clueText = display.newText({
-        text = "Receiving clue",
+        text = "Receiving clue",            -- Placeholder text
         x = display.contentCenterX,
         y = display.contentCenterY - 200,
         width = 256,
@@ -45,6 +51,7 @@ function scene:create( event )
     })
     sceneGroup:insert(clueText)
 
+    -- Creates the submit button to check user guess
     enterButton = widget.newButton({        
         label = "SUBMIT",
         onEvent = handleButtonEvent,
@@ -73,9 +80,12 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
+
+        -- Changes the question text and the unshown clue answer based on passed parameters from controller
         clueText.text = event.params[2]
         clueAnswer = event.params[3]
 
+        -- Creates the text field user types guess into. In show not create as native objects can't be hidden
         inputBox = native.newTextField(display.contentCenterX, display.contentCenterY - 100, 256, 64)
  
     elseif ( phase == "did" ) then
@@ -92,6 +102,8 @@ function scene:hide( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
+
+        -- Removes the text field if it exists
         if(inputBox) then
             inputBox:removeSelf()
             inputBox = nil

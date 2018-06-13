@@ -8,6 +8,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
+-- Defines variables for scope
 local mask
 local jigsawImage
 local xPieces
@@ -18,9 +19,12 @@ local picX
 local picY
 local firstPress
 
+-- when submit button pressed
 local enterButton
 local function enterButtonEvent(event)
     if(event.phase == "ended") then
+        -- When pressed, creates a check set to true, and iterates through every jigsaw piece. 
+        -- If the x and y origins (unique for each piece) are different to the correct ordered versions, check changed to false 
         local check = true
         for i = 1, xPieces do
             for j = 1, yPieces do
@@ -30,12 +34,14 @@ local function enterButtonEvent(event)
                 end
             end
         end
+        -- If check is still true, all pieces must be correct, so returns to controller scene to iterate to next clue
         if(check == true) then
             composer.gotoScene("controller")
         end
     end
 end
 
+-- When how to play button pressed
 local howToPlayButton
 local function howToPlayButtonEvent(event)
     if(event.phase == "ended") then
@@ -43,7 +49,9 @@ local function howToPlayButtonEvent(event)
     end
 end
 
+-- Creates the swap jigsaw pieces function. Takes two pairs of keys and values for jigsaw piece table
 local function swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
+    -- Both jigsaw pieces, and their x and y, saved to seperate variables
     local firstItem = jigsawPieces[firstRandX][firstRandY]
     local firstX = firstItem.x
     local firstY = firstItem.y
@@ -52,6 +60,7 @@ local function swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
     local secondX = secondItem.x
     local secondY = secondItem.y
 
+    -- Swaps those variables around, thus switching the pieces
     jigsawPieces[firstRandX][firstRandY] = secondItem
     jigsawPieces[firstRandX][firstRandY].x = firstX
     jigsawPieces[firstRandX][firstRandY].y = firstY
@@ -61,15 +70,20 @@ local function swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
     jigsawPieces[secondRandX][secondRandY].y = secondY
 end
 
+-- Creates the function on tapping a jigsaw piece
 local function touchPiece(event)
     if(event.phase == "ended") then
+        -- If there is no previously tapped piece
         if(firstPress ~= nil) then
+            -- Define vars for scope
             local firstRandX
             local firstRandY
             local secondRandX
             local secondRandY
 
+            -- For every row in the jigsaw
             for i = 1, #jigsawPieces do
+                -- If the previously tapped piece or tapped piece exists there, saves it's keys and values
                 if(table.indexOf(jigsawPieces[i], firstPress)) ~= nil then
                     firstRandX = i
                     firstRandY = table.indexOf(jigsawPieces[i], firstPress)
@@ -79,9 +93,11 @@ local function touchPiece(event)
                     secondRandY = table.indexOf(jigsawPieces[i], event.target)
                 end
             end
+            -- Runs swap piece function on those pieces using their keys and values, then resets previously tapped piece
             swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
             firstPress = nil
         else
+            -- Set this as the previously tapped piece
             firstPress = event.target
         end
     end
@@ -98,10 +114,12 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
+    -- Creates mask from image in folder of 104*104 png of 4 pixel black border and 100 pixel white square
     mask = graphics.newMask("Images/maskHundred.png")
 
+    -- Creates how to play button
     howToPlayButton = widget.newButton({        
-        label = "?",
+        label = "?",                        -- Question mark label so button can be small
         onEvent = howToPlayButtonEvent,
         emboss = false,
         -- Properties for a circle button
@@ -116,6 +134,7 @@ function scene:create( event )
     })
     sceneGroup:insert(howToPlayButton)
 
+    -- Creates submit button
     enterButton = widget.newButton({        
         label = "SUBMIT",
         onEvent = enterButtonEvent,
@@ -146,25 +165,31 @@ function scene:show( event )
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 
-        jigsawImage = event.params[2]
-        xPieces = event.params[3]
-        yPieces = event.params[4]
-        picX = event.params[5]/(event.params[5]/display.actualContentWidth)
-        picY = event.params[6]/(event.params[5]/display.actualContentWidth)
+        -- Sets variables as passed parameters
+        jigsawImage = event.params[2]                                           -- Image used for jigsaw
+        xPieces = event.params[3]                                               -- Number of pieces across
+        yPieces = event.params[4]                                               -- Number of pieces down
+        picX = event.params[5]/(event.params[5]/display.actualContentWidth)     -- Jigsaw width in pixels
+        picY = event.params[6]/(event.params[5]/display.actualContentWidth)     -- Jigsaw height in pixels
+        -- Pixel width and height calculated by dividing picture width by screen width
 
-        --event.params[5] / display.actualContentWidth
-
+        -- For every piece across
         for i = 1, xPieces do
+            -- Creates a table with table for that row in jigsaw table and completed jigsaw table
             jigsawPieces[i] = {}
             jigsawFinished[i] = {}
 
+            -- For every piece down
             for j = 1, yPieces do
+                -- Curpiece just faster to type, is currently iterated piece. Creates the full image with the set width/height
                 local curPiece
-
                 curPiece = display.newImageRect(jigsawImage, picX, picY)
-
-                curPiece:setMask(mask)
-                curPiece.maskScaleX = (picX/xPieces)/100
+                
+                -- Applies the 100*100 mask. Scales width and height by (image size/number of pieces)/mask size
+                -- Locates mask x and y by (-(image size/2) + imagesize/(number of pieces*2)) + (image size/number of pieces)*(current piece number)
+                -- Complex calculation just centers the mask on the current piece's x and y in relation to jigsaw piece size
+                curPiece:setMask(mask)                                                  
+                curPiece.maskScaleX = (picX/xPieces)/100                               
                 curPiece.maskScaleY = (picY/yPieces)/100
                 curPiece.maskX = (-(picX/2) + picX/(xPieces*2)) + (picX/xPieces)*(i-1)
                 curPiece.maskY = (-(picY/2) + picY/(yPieces*2)) + (picY/yPieces)*(j-1)
