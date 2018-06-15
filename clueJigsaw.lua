@@ -194,19 +194,23 @@ function scene:show( event )
                 curPiece.maskX = (-(picX/2) + picX/(xPieces*2)) + (picX/xPieces)*(i-1)
                 curPiece.maskY = (-(picY/2) + picY/(yPieces*2)) + (picY/yPieces)*(j-1)
 
+                -- Sets anchor to the same point that mask is centred (mask is in pixels, anchor is in percentage of picture)
+                -- Sets x and y to offset the new centre point
                 curPiece.anchorX = (curPiece.maskX + picX/2)/picX
                 curPiece.anchorY = (curPiece.maskY + picY/2)/picY
                 curPiece.x = curPiece.maskX + display.contentCenterX
                 curPiece.y = curPiece.maskY + display.contentCenterY
                 sceneGroup:insert(curPiece)
 
+                -- Adds touch listener to all pieces, adds the piece to the jigsaw table at key and value location
+                -- Adds anchor points to finished table at same location. Unique anchor points for all pieces, so used to check if jigsaw correctly solved
                 curPiece:addEventListener("touch", touchPiece)
-
                 jigsawPieces[i][j] = curPiece
                 jigsawFinished[i][j] = curPiece.anchorX .. " " .. curPiece.anchorY
             end
         end
 
+        -- Swaps two random pieces, (number of pieces * 2) times
         for i = 1, (xPieces*yPieces)*2 do
             local firstRandX = math.random(xPieces)
             local firstRandY = math.random(yPieces)
@@ -252,6 +256,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
 
+        -- Clears out the jigsaw piece and completed jigsaw tables
         for i = 1, #jigsawPieces do
             for j = 1, #jigsawPieces[i] do
                 jigsawPieces[i][j]:removeSelf()
