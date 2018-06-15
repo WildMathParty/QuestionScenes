@@ -41,11 +41,15 @@ local function enterButtonEvent(event)
     end
 end
 
--- When how to play button pressed
+-- When how to play button pressed, overlays scene explaining how to play
 local howToPlayButton
 local function howToPlayButtonEvent(event)
     if(event.phase == "ended") then
-        --Overlay composer scene
+        composer.showOverlay("overlay", {
+            isModal = true,
+            effect = "zoomOutIn",
+            time = 400,
+            params = {"How to play: Jigsaw", "To solve, you need to assemble the picture. Tap any two pieces to swap them, and when you think the picture is correctly assembled, hit the submit button"}})
     end
 end
 
