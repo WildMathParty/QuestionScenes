@@ -18,6 +18,7 @@ local jigsawFinished = {}
 local picX
 local picY
 local firstPress
+local pieceSelect
 
 -- when submit button pressed
 local enterButton
@@ -100,9 +101,14 @@ local function touchPiece(event)
             -- Runs swap piece function on those pieces using their keys and values, then resets previously tapped piece
             swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
             firstPress = nil
+            pieceSelect:removeSelf()
         else
-            -- Set this as the previously tapped piece
+            -- Set this as the previously tapped piece, and creates highlight around it
             firstPress = event.target
+            pieceSelect = display.newRect(firstPress.x, firstPress.y, picX/xPieces + 5, picY/yPieces + 5)
+            pieceSelect.strokeWidth = 5
+            pieceSelect:setFillColor(0,0,0,0)
+            pieceSelect:setStrokeColor(0.7,0,1,0.5)
         end
     end
 end

@@ -7,7 +7,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
--- TODO: Move input box so that can still read over keyboard
+-- TODO: ~~~Move input box so that can still read over keyboard
 --       Have feedback on jigsaw so can tell what first tap is
 --       Add more clue types - multi choice, memory
 --       Have winning message at end
