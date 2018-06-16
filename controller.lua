@@ -8,7 +8,7 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------
 
 -- TODO: ~~~Move input box so that can still read over keyboard
---       Have feedback on jigsaw so can tell what first tap is
+--       ~~~Have feedback on jigsaw so can tell what first tap is
 --       Add more clue types - multi choice, memory
 --       Have winning message at end
 
