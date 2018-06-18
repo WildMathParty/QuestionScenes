@@ -32,7 +32,7 @@ function scene:create( event )
 
     -- Creates text at top of screen
     menuText = display.newText({
-        text = "Press below to start the hunt",
+        text = "placeholder",
         x = display.contentCenterX,
         y = display.contentCenterY - 200,
         width = 256,
@@ -71,6 +71,7 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
+        menuText.text = event.params[1]
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen

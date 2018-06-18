@@ -63,7 +63,10 @@ function scene:show( event )
         -- If clue number is larger than number of clues, resets clue number to 0 and returns to menu
         if(clueNum > #clueTable) then
             clueNum = 0
-            composer.gotoScene("menu")
+            composer.gotoScene("menu", {params={[[
+Congratulations!
+You have completed every clue.
+I hope you enjoyed, and you can press below to replay.]]}})
         else
             -- Else goes to the next clue type scene using the clue table and current clue, passing parameters of rest of that clue table field
             composer.gotoScene(clueTable[clueNum][1], {params = clueTable[clueNum]})

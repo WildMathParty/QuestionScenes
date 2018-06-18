@@ -16,7 +16,7 @@ local screenButton
 local function screenTap()
     composer.hideOverlay("zoomOutIn", 400)
 end
- 
+
  
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
