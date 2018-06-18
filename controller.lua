@@ -10,13 +10,14 @@ local scene = composer.newScene()
 -- TODO: ~~~Move input box so that can still read over keyboard
 --       ~~~Have feedback on jigsaw so can tell what first tap is
 --       Add more clue types - multi choice, memory
---       Have winning message at end
+--       ~~~Have winning message at end
 
 -- clueNum is the current clue number the player is on. Used to get next clue on iteration and to finish hunt when above number of clues
 local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
+    {"clueMulti", {"multi", "test1"}, {"combi", "test2"} },  
     {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
     {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
     {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},

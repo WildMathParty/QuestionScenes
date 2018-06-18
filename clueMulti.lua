@@ -1,5 +1,4 @@
 local composer = require( "composer" )
-local widget = require("widget")
  
 local scene = composer.newScene()
  
@@ -8,17 +7,24 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
--- Variables declared for scope
-local menuText
-local startButton
+--[[
+Have progress/segments along top of screen for each multichoice question
+Can move left or right along question by swiping
+Can switch to specific question by tapping progress/segments
+Final segment has submit button
+Each question is either multi choice or combination
+Selected buttons change colour scheme
+Multichoice can only select one button, and switch between choices
+Combination can select any number of buttons
+Need every question correct to complete
+Possibly add option to show user which questions they've got wrong
 
--- When start button pressed, goes to controller scene
-local function handleButtonEvent(event)
-    if (event.phase == "ended") then
-        composer.gotoScene("controller")
-    end
-end
+Create rectangle over screen or use runtime. Xstart and x to see if swipe left/right
+transition.to bring next/chosen question over to screen
+]]
 
+-- Define vars for scope
+local questionTexts = {}
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -29,36 +35,6 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
-
-    -- Creates text at top of screen
-    menuText = display.newText({
-        text = "placeholder",
-        x = display.contentCenterX,
-        y = display.contentCenterY - 150,
-        width = 256,
-        font = native.systemFont,   
-        fontSize = 18,
-        align = "center"
-    })
-    sceneGroup:insert(menuText)
-
-    -- Creates button to start hunt
-    startButton = widget.newButton({        
-        label = "START",
-        onEvent = handleButtonEvent,
-        emboss = false,
-        -- Properties for a rounded rectangle button
-        shape = "roundedRect",
-        x = display.contentCenterX,
-        y = display.contentCenterY + 80,
-        width = 200,
-        height = 40,
-        cornerRadius = 2,
-        fillColor = { default={0.5,0,0,1}, over={1,0.1,0.7,0.4} },
-        strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 4
-    })
-    sceneGroup:insert(startButton)
  
 end
  
@@ -71,7 +47,18 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-        menuText.text = event.params[1]
+        for i = 1, #event.params -1 do -- For every question in clue (-1 for clue type identifier)
+            questionTexts[i] = display.newText({
+                text = event.params[i+1][2],
+                x = display.contentCenterX,
+                y = display.contentCenterY - 200,
+                width = 256,
+                font = native.systemFont,   
+                fontSize = 18,
+                align = "center"
+            })
+            sceneGroup:insert(questionTexts[i])
+        end
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -91,6 +78,12 @@ function scene:hide( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
+
+        for i = 1, #questionTexts do
+            questionTexts[i]:removeSelf()
+            questionTexts[i] = nil
+        end
+        questionTexts = {}
  
     end
 end
