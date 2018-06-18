@@ -7,15 +7,28 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
+-- TODO: ~~~Move input box so that can still read over keyboard
+--       ~~~Have feedback on jigsaw so can tell what first tap is
+--       Add more clue types - multi choice, memory
+--       Have winning message at end
+
 -- clueNum is the current clue number the player is on. Used to get next clue on iteration and to finish hunt when above number of clues
 local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
-    {"clueJigsaw", "Images/colourCat.jpg", 4, 3, 960, 682},
-    --{"clueJigsaw", "Images/colourDog.jpg", 2, 6, 798, 634},
-    --{"cluePicker", "What are the first four numbers?", "1234", {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}, {"1", "2", "3", "4", "5"}},
-    --{"clueString", "What is the second letter?", "b"}
+    {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
+    {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
+    {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},
+    {"clueString", "What song did Hatsune Miku perform on the pizza box?", "luv4night"},
+    {"cluePicker", "From the menu to the order, it looks very ...", "cute", {"s", "c", "q", "i", "n"}, {"f", "a", "l", "m", "u"}, {"p", "r", "z", "t", "y"}, {"e", "o", "b", "d", "x"}},
+    {"clueJigsaw", "Images/miku.jpg", 4, 3, 907, 720}--[[
+    {"clueString", "What is the capital of New Zealand?", "wellington"},
+    {"cluePicker", "What year was the Treaty of Waitangi signes?", "1840", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
+    {"clueJigsaw", "Images/beehive.jpg", 3, 3, 694, 491},
+    {"clueString", "Who discovered New Zealand?", "abel tasman"},
+    {"cluePicker", "What is New Zealand's national bird?", "kiwi", {"s", "b", "k", "i", "n"}, {"i", "t", "l", "m", "u"}, {"p", "r", "w", "a", "y"}, {"e", "o", "c", "d", "i"}},
+    {"clueJigsaw", "Images/tui.jpg", 4, 3, 800, 533}]]
 }
 --[[        CLUE FORMAT
 simple string question, string answer

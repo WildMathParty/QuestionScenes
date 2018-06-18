@@ -18,6 +18,7 @@ local jigsawFinished = {}
 local picX
 local picY
 local firstPress
+local pieceSelect
 
 -- when submit button pressed
 local enterButton
@@ -100,9 +101,14 @@ local function touchPiece(event)
             -- Runs swap piece function on those pieces using their keys and values, then resets previously tapped piece
             swapPieces(firstRandX, firstRandY, secondRandX, secondRandY)
             firstPress = nil
+            pieceSelect:removeSelf()
         else
-            -- Set this as the previously tapped piece
+            -- Set this as the previously tapped piece, and creates highlight around it
             firstPress = event.target
+            pieceSelect = display.newRect(firstPress.x, firstPress.y, picX/xPieces + 5, picY/yPieces + 5)
+            pieceSelect.strokeWidth = 5
+            pieceSelect:setFillColor(0,0,0,0)
+            pieceSelect:setStrokeColor(0.7,0,1,0.5)
         end
     end
 end
@@ -173,9 +179,14 @@ function scene:show( event )
         jigsawImage = event.params[2]                                           -- Image used for jigsaw
         xPieces = event.params[3]                                               -- Number of pieces across
         yPieces = event.params[4]                                               -- Number of pieces down
-        picX = event.params[5]/(event.params[5]/display.actualContentWidth)     -- Jigsaw width in pixels
-        picY = event.params[6]/(event.params[5]/display.actualContentWidth)     -- Jigsaw height in pixels
-        -- Pixel width and height calculated by dividing picture width by screen width
+        if(event.params[5]>event.params[6]) then
+            picX = event.params[5]/(event.params[5]/display.actualContentWidth)
+            picY = event.params[6]/(event.params[5]/display.actualContentWidth)
+        else
+            picX = event.params[5]/(event.params[6]/(display.actualContentHeight/1.8))
+            picY = event.params[6]/(event.params[6]/(display.actualContentHeight/1.8))
+        end
+        -- Pixel width and height calculated by dividing picture width or height by screen width or height, whichever's smaller
 
         -- For every piece across
         for i = 1, xPieces do
