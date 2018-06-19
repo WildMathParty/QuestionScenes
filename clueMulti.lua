@@ -41,7 +41,11 @@ local function swipeEventHandler(event)
     elseif(event.phase == "ended" or event.phase == "ended") then
         print(objGroup.x .. "<<")
         print(objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2))
-        objGroup.x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
+        --objGroup.x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
+        transition.to(objGroup, {
+            x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2),
+            time = 200
+        })
     end
 end
 
