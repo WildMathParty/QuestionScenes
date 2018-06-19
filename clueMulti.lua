@@ -25,6 +25,25 @@ transition.to bring next/chosen question over to screen
 
 -- Define vars for scope
 local questionTexts = {}
+local testObj = display.newRect(display.contentCenterX, display.contentCenterY, 75, 75)
+local testObjSec = display.newRect(display.contentCenterX + display.actualContentWidth, display.contentCenterY, 75, 75)
+testObj:setFillColor(1,0,0)
+local objGroup = display.newGroup()
+objGroup:insert(testObj)
+objGroup:insert(testObjSec)
+local tempX
+
+local function swipeEventHandler(event)
+    if(event.phase == "began") then
+        tempX = objGroup.x
+    elseif(event.phase == "moved") then
+        objGroup.x = event.x - event.xStart + tempX
+    elseif(event.phase == "ended" or event.phase == "ended") then
+        print(objGroup.x .. "<<")
+        print(objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2))
+        objGroup.x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
+    end
+end
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -35,6 +54,8 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+
+    Runtime:addEventListener("touch", swipeEventHandler)
  
 end
  
