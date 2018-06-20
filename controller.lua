@@ -17,7 +17,7 @@ local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
-    {"clueMulti", {"multi", "test1"}, {"combi", "test2"} },
+    {"clueMulti", {"multi", "test1", "btn1", "btn2", "btn3"}, {"combi", "test2", "btn1", "btn2"} },
     {"clueMulti", {"multi", "test3"}, {"combi", "test4"} },  --[[
     {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
     {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},

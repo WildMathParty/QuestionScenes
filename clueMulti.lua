@@ -1,4 +1,5 @@
 local composer = require( "composer" )
+local widget = require("widget")
  
 local scene = composer.newScene()
  
@@ -25,6 +26,7 @@ transition.to bring next/chosen question over to screen
 
 -- Define vars for scope
 local questionTexts = {}
+local questionButtons = {}
 local testObj = display.newRect(display.contentCenterX, display.contentCenterY, 75, 75)
 local testObjSec = display.newRect(display.contentCenterX + display.actualContentWidth, display.contentCenterY, 75, 75)
 testObj:setFillColor(1,0,0)
@@ -42,8 +44,14 @@ local function swipeEventHandler(event)
         print(objGroup.x .. "<<")
         print(objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2))
         --objGroup.x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
+        local moveX = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
+        if(moveX > 0) then
+            moveX = 0
+        elseif(moveX < -display.actualContentWidth * (#questionTexts-1)) then
+            moveX = -display.actualContentWidth * (#questionTexts-1)
+        end
         transition.to(objGroup, {
-            x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2),
+            x = moveX,
             time = 200
         })
     end
@@ -75,7 +83,7 @@ function scene:show( event )
         for i = 1, #event.params -1 do -- For every question in clue (-1 for clue type identifier)
             questionTexts[i] = display.newText({
                 text = event.params[i+1][2],
-                x = display.contentCenterX,
+                x = display.contentCenterX + display.actualContentWidth*(i-1),
                 y = display.contentCenterY - 200,
                 width = 256,
                 font = native.systemFont,   
@@ -83,6 +91,28 @@ function scene:show( event )
                 align = "center"
             })
             sceneGroup:insert(questionTexts[i])
+            objGroup:insert(questionTexts[i])
+
+            questionButtons[i] = {}
+            for j = 1, #event.params[i+1] -2 do
+                questionButtons[i][j] = widget.newButton({        
+                    label = event.params[i][j],
+                    onEvent = handleButtonEvent,
+                    emboss = false,
+                    -- Properties for a rounded rectangle button
+                    shape = "roundedRect",
+                    x = display.contentCenterX + ((i-1) * display.actualContentWidth),
+                    y = display.contentCenterY + 100 * j,
+                    width = 100,
+                    height = 100,
+                    cornerRadius = 2,
+                    fillColor = { default={0.5,0,0,1}, over={1,0.1,0.7,0.4} },
+                    strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
+                    strokeWidth = 4
+                })
+                sceneGroup:insert(questionButtons[i][j])
+                objGroup:insert(questionButtons[i][j])
+            end
         end
  
     elseif ( phase == "did" ) then
