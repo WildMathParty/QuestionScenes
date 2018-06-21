@@ -27,13 +27,15 @@ transition.to bring next/chosen question over to screen
 -- Define vars for scope
 local questionTexts = {}
 local questionButtons = {}
-local testObj = display.newRect(display.contentCenterX, display.contentCenterY, 75, 75)
+--[[local testObj = display.newRect(display.contentCenterX, display.contentCenterY, 75, 75)
 local testObjSec = display.newRect(display.contentCenterX + display.actualContentWidth, display.contentCenterY, 75, 75)
 testObj:setFillColor(1,0,0)
 local objGroup = display.newGroup()
 objGroup:insert(testObj)
-objGroup:insert(testObjSec)
+objGroup:insert(testObjSec)]]
+local objGroup = display.newGroup()
 local tempX
+local isButtonPressed = {}
 
 local function swipeEventHandler(event)
     if(event.phase == "began") then
@@ -41,8 +43,8 @@ local function swipeEventHandler(event)
     elseif(event.phase == "moved") then
         objGroup.x = event.x - event.xStart + tempX
     elseif(event.phase == "ended" or event.phase == "ended") then
-        print(objGroup.x .. "<<")
-        print(objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2))
+        --print(objGroup.x .. "<<")
+        --print(objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2))
         --objGroup.x = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
         local moveX = objGroup.x - ((objGroup.x+display.actualContentWidth/2)%(display.actualContentWidth) - display.actualContentWidth/2)
         if(moveX > 0) then
@@ -54,6 +56,14 @@ local function swipeEventHandler(event)
             x = moveX,
             time = 200
         })
+    end
+end
+
+local function handleButtonEvent(event)
+    if(event.phase == "began") then
+        isButtonPressed[event.target.id] = true
+    elseif(event.phase == "ended") then
+        event.target:setFillColor(1,1,1)
     end
 end
 
@@ -94,24 +104,28 @@ function scene:show( event )
             objGroup:insert(questionTexts[i])
 
             questionButtons[i] = {}
+            isButtonPressed[i] = {}
             for j = 1, #event.params[i+1] -2 do
-                questionButtons[i][j] = widget.newButton({        
-                    label = event.params[i][j],
+                questionButtons[i][j] = widget.newButton({  
+                    id = i..j,      
+                    label = event.params[i+1][j+2],
                     onEvent = handleButtonEvent,
                     emboss = false,
                     -- Properties for a rounded rectangle button
                     shape = "roundedRect",
-                    x = display.contentCenterX + ((i-1) * display.actualContentWidth),
-                    y = display.contentCenterY + 100 * j,
-                    width = 100,
-                    height = 100,
+                    x = display.contentCenterX + ((i-1) * display.actualContentWidth) + 100 * ((j-1)%3) - 100,
+                    y = display.contentCenterY + (((j-1) - (j-1)%3)/3)*100 - 100,
+                    width = 75,
+                    height = 75,
                     cornerRadius = 2,
                     fillColor = { default={0.5,0,0,1}, over={1,0.1,0.7,0.4} },
                     strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
                     strokeWidth = 4
                 })
+                isButtonPressed[i..j] = false
                 sceneGroup:insert(questionButtons[i][j])
                 objGroup:insert(questionButtons[i][j])
+                --print((j-1)%3 .. ":" .. ((j-1) - (j-1)%3)/3)
             end
         end
  
