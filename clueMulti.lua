@@ -60,10 +60,22 @@ local function swipeEventHandler(event)
 end
 
 local function handleButtonEvent(event)
-    if(event.phase == "began") then
-        isButtonPressed[event.target.id] = true
-    elseif(event.phase == "ended") then
-        event.target:setFillColor(1,1,1)
+    if(event.phase == "ended") then
+        if(string.find(event.target.id, "multi") ~= nil) then
+            for k,v in pairs(isButtonPressed) do
+                if(string.starts(k, string.sub(event.target.id, 1, string.find(event.target.id, "i")))) then
+                    isButtonPressed[k] = false
+                    questionButtons[k]:setFillColor(0.5,0,0)
+                end
+            end
+        end
+        if(isButtonPressed[event.target.id]) then
+            isButtonPressed[event.target.id] = false
+            event.target:setFillColor(0.5,0,0)
+        else
+            isButtonPressed[event.target.id] = true
+            event.target:setFillColor(1,1,1)
+        end
     end
 end
 
@@ -103,11 +115,9 @@ function scene:show( event )
             sceneGroup:insert(questionTexts[i])
             objGroup:insert(questionTexts[i])
 
-            questionButtons[i] = {}
-            isButtonPressed[i] = {}
             for j = 1, #event.params[i+1] -2 do
-                questionButtons[i][j] = widget.newButton({  
-                    id = i..j,      
+                questionButtons[i .. event.params[i+1][1] ..j] = widget.newButton({  
+                    id = i .. event.params[i+1][1] ..j,      
                     label = event.params[i+1][j+2],
                     onEvent = handleButtonEvent,
                     emboss = false,
@@ -122,9 +132,9 @@ function scene:show( event )
                     strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
                     strokeWidth = 4
                 })
-                isButtonPressed[i..j] = false
-                sceneGroup:insert(questionButtons[i][j])
-                objGroup:insert(questionButtons[i][j])
+                isButtonPressed[i .. event.params[i+1][1] ..j] = false
+                sceneGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
+                objGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
                 --print((j-1)%3 .. ":" .. ((j-1) - (j-1)%3)/3)
             end
         end
