@@ -36,8 +36,18 @@ objGroup:insert(testObjSec)]]
 local objGroup = display.newGroup()
 local tempX
 local isButtonPressed = {}
+local enterButton
+
+local function enterButtonEvent(event)
+    print("AAAAAA")
+end
+
+--[[local function screenTouch()
+    print("test")
+end]]
 
 local function swipeEventHandler(event)
+    print("AAA")
     if(event.phase == "began") then
         tempX = objGroup.x
     elseif(event.phase == "moved") then
@@ -90,6 +100,30 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     Runtime:addEventListener("touch", swipeEventHandler)
+
+    --[[screenButton = display.newRect(display.contentCenterX, display.contentCenterY, display.actualContentWidth, display.actualContentHeight)
+    screenButton.alpha = 0
+    screenButton.isHitTestable = true
+    sceneGroup:insert(screenButton)
+    screenButton:toFront()
+    screenButton:addEventListener("touch", screenTouch)]]
+
+    enterButton = widget.newButton({        
+        label = "SUBMIT",
+        onEvent = enterButtonEvent,
+        emboss = false,
+        -- Properties for a rounded rectangle button
+        shape = "roundedRect",
+        x = display.contentCenterX,
+        y = display.contentCenterY + 180,
+        width = 200,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0.5,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 4
+    })
+    sceneGroup:insert(enterButton)
  
 end
  
