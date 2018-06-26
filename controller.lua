@@ -7,10 +7,8 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
--- TODO: ~~~Move input box so that can still read over keyboard
---       ~~~Have feedback on jigsaw so can tell what first tap is
---       Add more clue types - multi choice, memory
---       ~~~Have winning message at end
+-- TODO:    Add more clue types - ~~~multi choice, memory
+--          Find out what widget to use to show how many multichoice questions in a clue
 
 -- clueNum is the current clue number the player is on. Used to get next clue on iteration and to finish hunt when above number of clues
 local clueNum
@@ -18,7 +16,7 @@ local clueNum
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
     {"clueMulti", {"multi", "test1", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", false}, {"btn5", false}, {"btn6", false}, {"btn7", false}, {"btn8", false}, {"btn9", false}}, {"combi", "test2", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", true}, {"btn5", false}, {"btn6", false}, {"btn7", true}, {"btn8", false}, {"btn9", false}} },
-    {"clueMulti", {"multi", "test3", {"btn1", true}}}, {"combi", "test4", {"btn2", false}, {"btn3", false}}, {"multi", "test5", {"btn1", true}} },  --[[
+    {"clueMulti", {"multi", "test3", {"btn1", true}}, {"combi", "test4", {"btn2", false}, {"btn3", false}}, {"multi", "test5", {"btn1", true}} },  --[[
     {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
     {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
     {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},

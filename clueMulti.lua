@@ -38,6 +38,8 @@ local tempX
 local isButtonPressed = {}
 local enterButton
 local answerKey = {}
+local questionWidget
+local questionSegments = {}
 
 local function enterButtonEvent(event)
     if(event.phase == "ended") then
@@ -79,6 +81,13 @@ local function swipeEventHandler(event)
             time = 200
         })
     end
+end
+
+local function onSegmentPress(event)
+    transition.to(objGroup, {
+        x = event.target.segmentNumber * display.actualContentWidth,
+        time = 200
+    })
 end
 
 local function handleButtonEvent(event)
@@ -135,7 +144,7 @@ function scene:create( event )
         strokeColor = { default={0,0.4,1,1}, over={0.8,0.8,1,1} },
         strokeWidth = 4
     })
-    sceneGroup:insert(enterButton)
+    sceneGroup:insert(enterButton)     
  
 end
  
@@ -160,6 +169,7 @@ function scene:show( event )
             })
             sceneGroup:insert(questionTexts[i])
             objGroup:insert(questionTexts[i])
+            questionSegments[i] = tostring(i)
 
             for j = 1, #event.params[i+1] -2 do
                 questionButtons[i .. event.params[i+1][1] ..j] = widget.newButton({  
@@ -186,7 +196,14 @@ function scene:show( event )
 
             end
         end
+
         objGroup.x = 0
+        questionWidget = widget.newSegmentedControl({
+            x = display.contentCenterX,
+            y = display.contentCenterY - 250,
+            segments = questionSegments,
+            onPress = onSegmentPress
+        })
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -215,6 +232,9 @@ function scene:hide( event )
 
         isButtonPressed = {}
         answerKey = {}
+        questionSegments = {}
+        questionWidget:removeSelf()
+        questionWidget = nil
 
         for k,v in pairs(questionButtons) do
             questionButtons[k]:removeSelf()
