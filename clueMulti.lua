@@ -37,17 +37,29 @@ local objGroup = display.newGroup()
 local tempX
 local isButtonPressed = {}
 local enterButton
+local answerKey = {}
 
 local function enterButtonEvent(event)
-    print("AAAAAA")
+    if(event.phase == "ended") then
+        local check = true
+        for k,v in pairs(isButtonPressed) do
+            if(v ~= answerKey[k]) then
+                check = false
+            end
+            --print("KEY: "..k.." | ".."VALUE: "..tostring(v).." vs: "..tostring(answerKey[k]))
+        end
+        if(check == true) then
+            composer.gotoScene("controller")
+        else
+            print("aww")
+        end
+    end
 end
-
 --[[local function screenTouch()
     print("test")
 end]]
 
 local function swipeEventHandler(event)
-    print("AAA")
     if(event.phase == "began") then
         tempX = objGroup.x
     elseif(event.phase == "moved") then
@@ -152,7 +164,7 @@ function scene:show( event )
             for j = 1, #event.params[i+1] -2 do
                 questionButtons[i .. event.params[i+1][1] ..j] = widget.newButton({  
                     id = i .. event.params[i+1][1] ..j,      
-                    label = event.params[i+1][j+2],
+                    label = event.params[i+1][j+2][1],
                     onEvent = handleButtonEvent,
                     emboss = false,
                     -- Properties for a rounded rectangle button
@@ -167,11 +179,14 @@ function scene:show( event )
                     strokeWidth = 4
                 })
                 isButtonPressed[i .. event.params[i+1][1] ..j] = false
+                answerKey[i .. event.params[i+1][1] ..j] = event.params[i+1][j+2][2]
                 sceneGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
                 objGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
-                --print((j-1)%3 .. ":" .. ((j-1) - (j-1)%3)/3)
+                
+
             end
         end
+        objGroup.x = 0
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -197,6 +212,16 @@ function scene:hide( event )
             questionTexts[i] = nil
         end
         questionTexts = {}
+
+        isButtonPressed = {}
+        answerKey = {}
+
+        for k,v in pairs(questionButtons) do
+            questionButtons[k]:removeSelf()
+            questionButtons[k] = nil
+            --isButtonPressed[k] = nil
+            --answerKey[k] = nil
+        end
  
     end
 end

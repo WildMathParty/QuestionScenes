@@ -17,8 +17,8 @@ local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
-    {"clueMulti", {"multi", "test1", "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9"}, {"combi", "test2", "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9"} },
-    {"clueMulti", {"multi", "test3"}, {"combi", "test4"} },  --[[
+    {"clueMulti", {"multi", "test1", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", false}, {"btn5", false}, {"btn6", false}, {"btn7", false}, {"btn8", false}, {"btn9", false}}, {"combi", "test2", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", true}, {"btn5", false}, {"btn6", false}, {"btn7", true}, {"btn8", false}, {"btn9", false}} },
+    {"clueMulti", {"multi", "test3", {"btn1", true}}}, {"combi", "test4", {"btn2", false}, {"btn3", false}}, {"multi", "test5", {"btn1", true}} },  --[[
     {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
     {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
     {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},
