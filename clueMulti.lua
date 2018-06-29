@@ -80,12 +80,13 @@ local function swipeEventHandler(event)
             x = moveX,
             time = 200
         })
+        questionWidget:setActiveSegment((moveX/-320)+1)
     end
 end
 
 local function onSegmentPress(event)
     transition.to(objGroup, {
-        x = event.target.segmentNumber * display.actualContentWidth,
+        x = -(event.target.segmentNumber-1) * display.actualContentWidth,
         time = 200
     })
 end
@@ -94,7 +95,7 @@ local function handleButtonEvent(event)
     if(event.phase == "ended") then
         if(string.find(event.target.id, "multi") ~= nil) then
             for k,v in pairs(isButtonPressed) do
-                if(string.starts(k, string.sub(event.target.id, 1, string.find(event.target.id, "i")))) then
+                if(string.starts(k, string.sub(event.target.id, 1, string.find(event.target.id, "i"))) and k ~= event.target.id) then
                     isButtonPressed[k] = false
                     questionButtons[k]:setFillColor(0.5,0,0)
                 end
