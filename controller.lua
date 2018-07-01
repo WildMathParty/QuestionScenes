@@ -15,21 +15,13 @@ local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
-    --{"clueMulti", {"multi", "test1", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", false}, {"btn5", false}, {"btn6", false}, {"btn7", false}, {"btn8", false}, {"btn9", false}}, {"combi", "test2", {"btn1", true}, {"btn2", false}, {"btn3", false}, {"btn4", true}, {"btn5", false}, {"btn6", false}, {"btn7", true}, {"btn8", false}, {"btn9", false}} },
-    {"clueMulti", {"multi", "test3", {"btn1", true}}, {"combi", "test4", {"btn2", false}, {"btn3", false}}, {"multi", "test5", {"btn1", true}},  },  --[[
-    {"clueString", "What famous Japanese character did Domino's Pizza collaberate with?", "hatsune miku"},
-    {"cluePicker", "What year did this collaberation take place?", "2013", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}},
-    {"clueJigsaw", "Images/hatsune.jpg", 5, 2, 269, 493},
-    {"clueString", "What song did Hatsune Miku perform on the pizza box?", "luv4night"},
-    {"cluePicker", "From the menu to the order, it looks very ...", "cute", {"s", "c", "q", "i", "n"}, {"f", "a", "l", "m", "u"}, {"p", "r", "z", "t", "y"}, {"e", "o", "b", "d", "x"}},
-    {"clueJigsaw", "Images/miku.jpg", 4, 3, 907, 720}
-    {"clueString", "What is the capital of New Zealand?", "wellington"},
-    {"cluePicker", "What year was the Treaty of Waitangi signes?", "1840", {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
-    {"clueJigsaw", "Images/beehive.jpg", 3, 3, 694, 491},
-    {"clueString", "Who discovered New Zealand?", "abel tasman"},
-    {"cluePicker", "What is New Zealand's national bird?", "kiwi", {"s", "b", "k", "i", "n"}, {"i", "t", "l", "m", "u"}, {"p", "r", "w", "a", "y"}, {"e", "o", "c", "d", "i"}},
-    {"clueJigsaw", "Images/tui.jpg", 4, 3, 800, 533}]]
+    -- The Kyrgyzstan Quiz
+    --{"clueString", "Sonic the Hedgehog's friend, Knuckles, is what species of anthropomorphic animal?", "echidna"},
+    --{"cluePicker", "What year was Knuckles' debut game released?", "1994", {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+    --{"clueJigsaw", "Images/knuckles.png", 2, 4, 600, 600}
+    {"clueMulti", {"multi", "Which is Knuckles' signature move?", {"Turn into an \n enchilada", false}, {"Climb Walls", true}, {"Fly by spinning \n his tail", false}, {"Run around at the speed of sound", false}}}
 }
+
 --[[        CLUE FORMAT
 simple string question, string answer
 {"clueString", "The question asked", "the answer in lowercase"}
@@ -39,6 +31,10 @@ string question, combination lock-like answer. Can be numbers for code or letter
 
 jigsaw question, takes picture and cuts it into specified x and y pieces, then scrambles them. User switches pieces to get full image and submits
 {"clueJigsaw", "Image file location", x pieces, y pieces, x pixels, y pixels}
+
+multichoice question, two types: multichoice, single button can be selected and submitted, and combination, any number of buttons. Full question can use multiple of each
+{"clueMulti", {"multi/combi", "The question asked", {"Choice text", true/false}, ..}, ..}
+multi questions must only have a single true choice and the rest false
 ]]
 
 

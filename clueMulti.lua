@@ -178,6 +178,8 @@ function scene:show( event )
                     label = event.params[i+1][j+2][1],
                     onEvent = handleButtonEvent,
                     emboss = false,
+                    labelAlign = "center",
+                    --fontSize = 10,
                     -- Properties for a rounded rectangle button
                     shape = "roundedRect",
                     x = display.contentCenterX + ((i-1) * display.actualContentWidth) + 100 * ((j-1)%3) - 100,
