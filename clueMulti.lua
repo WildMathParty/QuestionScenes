@@ -40,6 +40,7 @@ local enterButton
 local answerKey = {}
 local questionWidget
 local questionSegments = {}
+local buttonTexts = {}
 
 local function enterButtonEvent(event)
     if(event.phase == "ended") then
@@ -175,7 +176,7 @@ function scene:show( event )
             for j = 1, #event.params[i+1] -2 do
                 questionButtons[i .. event.params[i+1][1] ..j] = widget.newButton({  
                     id = i .. event.params[i+1][1] ..j,      
-                    label = event.params[i+1][j+2][1],
+                    --label = event.params[i+1][j+2][1],
                     onEvent = handleButtonEvent,
                     emboss = false,
                     labelAlign = "center",
@@ -195,6 +196,22 @@ function scene:show( event )
                 answerKey[i .. event.params[i+1][1] ..j] = event.params[i+1][j+2][2]
                 sceneGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
                 objGroup:insert(questionButtons[i .. event.params[i+1][1] ..j])
+
+                buttonTexts[i .. event.params[i+1][1] ..j] = display.newText({
+                    text = event.params[i+1][j+2][1],
+                    x = display.contentCenterX + ((i-1) * display.actualContentWidth) + 100 * ((j-1)%3) - 100,
+                    y = display.contentCenterY + (((j-1) - (j-1)%3)/3)*100 - 100,
+                    width = 70,
+                    height = 70,
+                    align = "center",
+                    font = native.systemFont,
+                    fontSize = 14
+                })
+                sceneGroup:insert(buttonTexts[i .. event.params[i+1][1] ..j])
+                objGroup:insert(buttonTexts[i .. event.params[i+1][1] ..j])
+                buttonTexts[i .. event.params[i+1][1] ..j]:setFillColor(0,0,0)
+
+                print(string.len(event.params[i+1][j+2][1]))
                 
 
             end
@@ -241,6 +258,8 @@ function scene:hide( event )
 
         for k,v in pairs(questionButtons) do
             questionButtons[k]:removeSelf()
+            questionButtons[k] = nil
+            buttonTexts[k]:removeSelf()
             questionButtons[k] = nil
             --isButtonPressed[k] = nil
             --answerKey[k] = nil

@@ -15,11 +15,15 @@ local clueNum
 
 -- Table contains all the clues in current hunt. Placeholder for database. Edit this to change clues
 local clueTable = {
-    -- The Kyrgyzstan Quiz
-    --{"clueString", "Sonic the Hedgehog's friend, Knuckles, is what species of anthropomorphic animal?", "echidna"},
-    --{"cluePicker", "What year was Knuckles' debut game released?", "1994", {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
-    --{"clueJigsaw", "Images/knuckles.png", 2, 4, 600, 600}
-    {"clueMulti", {"multi", "Which is Knuckles' signature move?", {"Turn into an \n enchilada", false}, {"Climb Walls", true}, {"Fly by spinning \n his tail", false}, {"Run around at the speed of sound", false}}}
+    -- The Knuckles Quiz
+    {"clueString", "Sonic the Hedgehog's friend, Knuckles, is what species of anthropomorphic animal?", "echidna"},
+    {"cluePicker", "What year was Knuckles' debut game released?", "1994", {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}, {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+    {"clueJigsaw", "Images/knuckles.png", 2, 4, 600, 600},
+    {"clueMulti", {"multi", "Which is Knuckles' signature move?", {"Turn into an enchilada", false}, {"Climb Walls", true}, {"Fly by spinning his tail", false}, {"Run around at the speed of sound", false}}},
+    {"clueString", "Who created Knuckles the echidna?", "takashi yuda"},
+    {"cluePicker", "Knuckles is, 'rougher than the rest of them. The best of them, tougher than ...' what?", "leather", {"y", "u", "k", "l"}, {"o", "j", "e", "z"}, {"x", "g", "p", "a"}, {"t", "c", "o", "m"}, {"w", "h", "p", "s"}, {"e", "l", "n", "f"}, {"s", "b", "r", "e"}},    
+    {"clueJigsaw", "Images/echidna.jpg", 4, 4, 550, 360},
+    {"clueMulti", {"combi", "Which of thes games was Knuckles in?", {"Sonic the Hedgehog", false}, {"Sonic the Hedgehog 2", false}, {"Sonic the Hedgehog 3", true}, {"Sonic Blast", true}, {"Sonic Shuffle", true}, {"Sonic Rush", false}, {"Sonic Chronicles", true}, {"Sonic Mania", true}, {"Sonic Unleashed", false}}}
 }
 
 --[[        CLUE FORMAT
