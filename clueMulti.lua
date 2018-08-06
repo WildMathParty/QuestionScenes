@@ -122,8 +122,6 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
-    Runtime:addEventListener("touch", swipeEventHandler)
-
     --[[screenButton = display.newRect(display.contentCenterX, display.contentCenterY, display.actualContentWidth, display.actualContentHeight)
     screenButton.alpha = 0
     screenButton.isHitTestable = true
@@ -159,6 +157,9 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
+
+        Runtime:addEventListener("touch", swipeEventHandler)
+
         for i = 1, #event.params -1 do -- For every question in clue (-1 for clue type identifier)
             questionTexts[i] = display.newText({
                 text = event.params[i+1][2],
@@ -243,6 +244,8 @@ function scene:hide( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
+
+        Runtime:removeEventListener("touch", swipeEventHandler)
 
         for i = 1, #questionTexts do
             questionTexts[i]:removeSelf()

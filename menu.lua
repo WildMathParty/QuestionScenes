@@ -1,5 +1,6 @@
 local composer = require( "composer" )
 local widget = require("widget")
+local json = require("json")
  
 local scene = composer.newScene()
  
@@ -18,6 +19,21 @@ local function handleButtonEvent(event)
         composer.gotoScene("controller")
     end
 end
+
+local function handleResponse( event )
+    if not event.isError then
+        local decoded, pos, msg = json.decode( event.response )
+        if(not decoded) then
+            print("Decode failed at " .. tostring(pos) .. ": " .. tostring(msg))
+        else
+            print(decoded["name"])
+        end
+    else
+        print("Error!")
+    end 
+    return
+end
+
 
 
 -- -----------------------------------------------------------------------------------
@@ -72,6 +88,7 @@ function scene:show( event )
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         menuText.text = event.params[1]
+        --network.request("http://localhost:3000/api/demo/2", "GET", handleResponse)
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen

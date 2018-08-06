@@ -1,4 +1,5 @@
 local composer = require( "composer" )
+local json = require("json")
  
 local scene = composer.newScene()
  
@@ -7,8 +8,9 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
--- TODO:    Add more clue types - ~~~multi choice, memory
---          Find out what widget to use to show how many multichoice questions in a clue
+-- TODO:    Add more clue types: ~~memory~~
+--          ~~Find out what widget to use to show how many multichoice questions in a clue
+--          connect javascript website to AJAX APIS
 
 -- clueNum is the current clue number the player is on. Used to get next clue on iteration and to finish hunt when above number of clues
 local clueNum
@@ -23,7 +25,8 @@ local clueTable = {
     {"clueString", "Who created Knuckles the echidna?", "takashi yuda"},
     {"cluePicker", "Knuckles is, 'rougher than the rest of them. The best of them, tougher than ...' what?", "leather", {"y", "u", "k", "l"}, {"o", "j", "e", "z"}, {"x", "g", "p", "a"}, {"t", "c", "o", "m"}, {"w", "h", "p", "s"}, {"e", "l", "n", "f"}, {"s", "b", "r", "e"}},    
     {"clueJigsaw", "Images/echidna.jpg", 4, 4, 550, 360},
-    {"clueMulti", {"combi", "Which of thes games was Knuckles in?", {"Sonic the Hedgehog", false}, {"Sonic the Hedgehog 2", false}, {"Sonic the Hedgehog 3", true}, {"Sonic Blast", true}, {"Sonic Shuffle", true}, {"Sonic Rush", false}, {"Sonic Chronicles", true}, {"Sonic Mania", true}, {"Sonic Unleashed", false}}}
+    {"clueMulti", {"combi", "Which of thes games was Knuckles in?", {"Sonic the Hedgehog", false}, {"Sonic the Hedgehog 2", false}, {"Sonic the Hedgehog 3", true}, {"Sonic Blast", true}, {"Sonic Shuffle", true}, {"Sonic Rush", false}, {"Sonic Chronicles", true}, {"Sonic Mania", true}, {"Sonic Unleashed", false}},
+                  {"multi", "What powerful gemstone is Knuckles sword to protect?", {"The Chief Diamond", false}, {"The Premier Ruby", false}, {"The Master Emerald", true}, {"The Prime Amethyst", false}, {"The Foremost Opal", false}, {"Le Epic piece of Amber", false} }}
 }
 
 --[[        CLUE FORMAT
@@ -41,6 +44,35 @@ multichoice question, two types: multichoice, single button can be selected and 
 multi questions must only have a single true choice and the rest false
 ]]
 
+local function handleResponse( event )
+    if not event.isError then
+        local decoded, pos, msg = json.decode( event.response )
+        if(not decoded) then
+            print("Decode failed at " .. tostring(pos) .. ": " .. tostring(msg))
+        else
+            print("Decoding succeeded")
+            print(decoded)
+
+            --[[
+
+            -- If clue number is larger than number of clues, resets clue number to 0 and returns to menu
+            if(decoded["hasEnded"]) then
+                clueNum = 0
+                composer.gotoScene("menu", {params={]]--[[
+    Congratulations!
+    You have completed every clue.
+    I hope you enjoyed, and you can press below to replay.]]--[[}})
+            else
+                -- Else goes to the next clue type scene using the clue table and current clue, passing parameters of rest of that clue table field
+                --composer.gotoScene(decoded["clueType"], {params = decoded})
+                print(decoded["clueType"])
+            end]]
+        end
+    else
+        print("Error!")
+    end 
+    return
+end
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -72,18 +104,7 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
-        
-        -- If clue number is larger than number of clues, resets clue number to 0 and returns to menu
-        if(clueNum > #clueTable) then
-            clueNum = 0
-            composer.gotoScene("menu", {params={[[
-Congratulations!
-You have completed every clue.
-I hope you enjoyed, and you can press below to replay.]]}})
-        else
-            -- Else goes to the next clue type scene using the clue table and current clue, passing parameters of rest of that clue table field
-            composer.gotoScene(clueTable[clueNum][1], {params = clueTable[clueNum]})
-        end
+        network.request("http://localhost:3000/api/clues/0", "GET", handleResponse)
  
     end
 end
